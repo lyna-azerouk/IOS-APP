@@ -1,0 +1,22 @@
+require 'pg'
+require 'yaml'
+
+db_config = YAML.load_file('config/database.yml')
+conn = PG.connect( db_config['devlopement'] )
+conn.exec("DROP TABLE if exists users cascade;")
+
+conn.exec("CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50),
+  email VARCHAR(100),
+  password VARCHAR(100)
+)")
+
+conn.exec("CREATE TABLE IF NOT EXISTS wallets (
+  name VARCHAR(50),
+  color VARCHAR(50),
+  amount INT,
+  user_id INT,
+  CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id)
+)")
+

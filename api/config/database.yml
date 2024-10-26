@@ -1,0 +1,7 @@
+devlopement:
+  dbname: ecommerce_development
+  user: ecomerce_user
+  password: postgres
+  host: localhost
+  port: 5432
+
