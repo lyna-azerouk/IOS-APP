@@ -9,5 +9,6 @@ gem 'email_address'
 gem 'dry-transaction'
 gem 'guard'
 gem 'guard-puma'
+gem 'jwt'
 
 
