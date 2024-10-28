@@ -24,7 +24,7 @@ struct LoginView: View {
       .navigationTitle("Authentifiation")
       .frame(width: 400, height: 200, alignment: .center)
 
-      NavigationLink(destination: UserProfileView(), isActive: $navigateToProfile) {
+        NavigationLink(destination: UserProfileView(), isActive: $navigateToProfile) {
         EmptyView()
       }
     }
@@ -40,7 +40,7 @@ struct LoginView: View {
 
     Task {
       let response = try await server.execute(method: "POST")
-      print(response)
+
       if response.code == 200 {
         self.navigateToProfile = true
       }
