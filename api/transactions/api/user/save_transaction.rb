@@ -56,7 +56,7 @@ module Api
 
       def save(input)
         if @user.save
-          Success(input)
+          Success(input.merge(user: @user))
         else
           Failure("Erreur lors du téléchargment")
         end
