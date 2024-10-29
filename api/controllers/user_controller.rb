@@ -1,5 +1,6 @@
 require_relative '../transactions/api/user/save_transaction'
 require_relative '../modal/response'
+require_relative 'api_response_helper'
 require 'json'
 require 'net/https'
 require 'uri'
@@ -13,13 +14,9 @@ class UserController
     transaction = Api::User::SaveTransaction.call(params: params)
 
     if transaction.success?
-      response = Response.new()
-      response.init_success({data: transaction.success[:user], code: 200})
-      return 200, response.as_json
+      ApiResponseHelper.render_success(200, transaction.success[:user])
     else
-      response = Response.new()
-      response.init_success({ code: 422, errors: transaction.failure})
-      return 422, response.as_json
+      ApiResponseHelper.render_failure(422, transaction.failure)
     end
   end
 
@@ -29,11 +26,9 @@ class UserController
     return 404 unless user.present?
 
     if user.present? && user.eq_password(params['password'])
-      response = Response.new()
-      response.init_success({data: @user, code: 200})
-      return 200, response.as_json
+      ApiResponseHelper.render_success(200, @user)
     else
-      return 401
+      ApiResponseHelper.render_failure(401, "unauthrized")
     end
   end
 
@@ -41,11 +36,9 @@ class UserController
     user = find_user(params)
 
     if user.present? && user.valid_session_token?
-      response = Response.new()
-      response.init_success({data:@user, code: 200})
-      return 200, response.as_json
+      ApiResponseHelper.render_success(200, @user)
     else
-      return 401
+      ApiResponseHelper.render_failure(422, "user not found")
     end
   end
 
@@ -53,7 +46,7 @@ class UserController
     find_user(params)
 
     if @user.present?
-      return 401, "Alredy exist"
+      ApiResponseHelper.render_failure(401, "already exist")
     end
   end
 
