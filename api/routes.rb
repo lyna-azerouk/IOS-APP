@@ -8,9 +8,20 @@ get '/' do
   'Hello world!'
 end
 
-post '/users' do
-  puts "%%%%%%"
+post '/users/create' do
   params = JSON.parse(request.body.read)
 
 	UserController.create(params)
+end
+
+post '/users/login' do
+  params = JSON.parse(request.body.read)
+
+	UserController.login(params)
+end
+
+get '/users/session' do
+  params = JSON.parse(request.body.read)
+
+	UserController.authentificated(params)
 end

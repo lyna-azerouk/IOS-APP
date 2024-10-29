@@ -11,6 +11,8 @@ module Api
       tee :params
       step :valid_email
       tee :init_user
+      tee :hash_password
+      tee :session_token
       step :valid?
       step :save
 
@@ -34,6 +36,14 @@ module Api
 
       def init_user(_input)
         @user = ::User.new(@params)
+      end
+
+      def hash_password(_input)
+        @user.hash_password
+      end
+
+      def session_token(_input)
+        @user.generate_session_token()
       end
 
       def valid?(input)
