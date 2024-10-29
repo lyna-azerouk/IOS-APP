@@ -28,7 +28,6 @@ class User < ActiveRecord::Base
 
       return expiration_time && Time.at(expiration_time) > Time.now
     rescue JWT::DecodeError => e
-      puts e.inspect
       return false
     end
   end

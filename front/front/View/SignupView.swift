@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LoginView: View {
+struct SignupView: View {
   @State private var email: String = ""
   @State private var password: String = ""
   @State private var navigateToProfile = false
@@ -21,7 +21,7 @@ struct LoginView: View {
         }
         .padding(.top)
       }
-      .navigationTitle("Login")
+      .navigationTitle("Inscription")
       .frame(width: 400, height: 200, alignment: .center)
 
         NavigationLink(destination: UserProfileView(), isActive: $navigateToProfile) {
@@ -36,7 +36,7 @@ struct LoginView: View {
       "password": password
     ]
 
-    let server = Server(parameters: parameters, url: "/users/login")
+    let server = Server(parameters: parameters, url: "/users/create")
 
     Task {
       let response = try await server.execute(method: "POST")

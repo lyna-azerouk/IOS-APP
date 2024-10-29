@@ -9,14 +9,19 @@ import SwiftUI
 import Foundation
 
 struct ContentView: View {
-    var body: some View {
-        Group {
-            // LoginView()
-            UserProfileView()
-        }
-    }
-}
+  var body: some View {
 
+    Group {
+      let isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
+
+      if false {
+        UserProfileView()
+      }else {
+        WelcomePageView()
+      }
+    }
+  }
+}
 
 #Preview {
     ContentView()
