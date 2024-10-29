@@ -28,9 +28,4 @@ class Response
     }.to_s
     end
   end
-
-  def render_success()
-    
-
-  end
 end
