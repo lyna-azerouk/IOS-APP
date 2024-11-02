@@ -24,7 +24,7 @@ struct LoginView: View {
       .navigationTitle("Login")
       .frame(width: 400, height: 200, alignment: .center)
 
-        NavigationLink(destination: UserProfileView(), isActive: $navigateToProfile) {
+        NavigationLink(destination: DashboardView(), isActive: $navigateToProfile) {
         EmptyView()
       }
     }

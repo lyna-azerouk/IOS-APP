@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UserProfileView: View {
+struct DashboardView: View {
   @State public var searchText: String = ""
 
   var body: some View {
@@ -46,12 +46,13 @@ struct UserProfileView: View {
             }
         }
         .padding(16)
-        .frame(maxWidth: 500)
         .background(Color.white)
+        .frame(maxWidth: 500)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .gray.opacity(0.2), radius: 8, x: 0, y: 2)
       }
-
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(red: 0.9, green: 0.9, blue: 0.9))
       .navigationTitle("Home Page")
       .searchable(text: $searchText)
     }

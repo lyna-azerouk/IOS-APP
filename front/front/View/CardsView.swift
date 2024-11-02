@@ -83,7 +83,7 @@ struct CardsView: View {
         HStack{
           Image(systemName: "arrow.up.circle.fill")
             .foregroundColor(.green)
-            .font(.system(size: 60))
+            .font(.system(size: 50))
 
           VStack(alignment: .leading) {
             Text("Income")
@@ -100,7 +100,7 @@ struct CardsView: View {
 
           Image(systemName: "arrow.down.circle.fill")
             .foregroundColor(.red)
-            .font(.system(size: 60))
+            .font(.system(size: 50))
 
           VStack(alignment: .leading) {
             Text("Spending")
@@ -140,19 +140,10 @@ struct CardsView: View {
       .cornerRadius(15)
       .shadow(radius: 5)
       .padding(.bottom, 80)
-      Spacer()
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(Color(red: 0.9, green: 0.9, blue: 0.9))
 	}
-
-  func formatCurrency(_ amount: Double) -> String {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .currency
-    formatter.currencySymbol = "$" // Customize currency symbol if needed
-    formatter.maximumFractionDigits = 2
-    return formatter.string(from: NSNumber(value: amount)) ?? ""
-  }
 }
 
 

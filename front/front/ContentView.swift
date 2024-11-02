@@ -11,15 +11,16 @@ import Foundation
 struct ContentView: View {
   var body: some View {
 
-    Group {
-      let isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
+    // Group {
+    //   let isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
 
-      if false {
-        UserProfileView()
-      }else {
-          CardsView()
-      }
-    }
+    //   if false {
+    //     UserProfileView()
+    //   }else {
+    //       CardsView()
+    //   }
+    // }
+    MainTabView()
   }
 }
 
