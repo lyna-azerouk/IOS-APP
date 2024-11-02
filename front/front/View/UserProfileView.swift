@@ -28,7 +28,6 @@ struct UserProfileView: View {
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .gray.opacity(0.2), radius: 8, x: 0, y: 2)
-        Spacer()
 
         // Second element of the page
         HStack(spacing: 10) {
@@ -51,7 +50,6 @@ struct UserProfileView: View {
         .background(Color.white)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .gray.opacity(0.2), radius: 8, x: 0, y: 2)
-        Spacer()
       }
 
       .navigationTitle("Home Page")

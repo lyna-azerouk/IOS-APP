@@ -17,7 +17,7 @@ struct ContentView: View {
       if false {
         UserProfileView()
       }else {
-        WelcomePageView()
+          CardsView()
       }
     }
   }
