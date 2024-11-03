@@ -16,15 +16,12 @@ class Response
 
   def as_json(*)
     if success
-      {
-        code: code,
-        resource: resource.as_json
-    }.to_s
+      resource.as_json.to_s
     else
       {
-        code: code,
-        message: message,
-        errors: errors
+        "code": code,
+        "message": message,
+        "errors": errors
     }.to_s
     end
   end

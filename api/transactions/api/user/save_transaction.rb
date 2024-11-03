@@ -23,7 +23,6 @@ module Api
         @password = @params['password']
       end
 
-
       def valid_email(input)
         is_email_valid = (EmailAddress.new(@email)).valid?
 

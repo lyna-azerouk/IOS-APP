@@ -20,7 +20,7 @@ post '/users/login' do
 	UserController.login(params)
 end
 
-get '/users/session' do
+get '/users/session_token' do
   params = JSON.parse(request.body.read)
 
 	UserController.authentificated(params)

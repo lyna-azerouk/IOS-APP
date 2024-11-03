@@ -26,6 +26,7 @@ class UserController
     return 404 unless user.present?
 
     if user.present? && user.eq_password(params['password'])
+      user.generate_session_token
       ApiResponseHelper.render_success(200, @user)
     else
       ApiResponseHelper.render_failure(401, "unauthrized")
@@ -33,10 +34,11 @@ class UserController
   end
 
   def self.authentificated(params)
-    user = find_user(params)
+    token_expired = User.token_expired?(params['session_token'])
+    @user = User.find_user_by_token(params['session_token'])
 
-    if user.present? && user.valid_session_token?
-      ApiResponseHelper.render_success(200, @user)
+    if !token_expired && @user.present?
+      ApiResponseHelper.render_success(200,@user)
     else
       ApiResponseHelper.render_failure(422, "user not found")
     end
