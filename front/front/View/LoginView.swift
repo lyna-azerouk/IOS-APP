@@ -1,9 +1,11 @@
 import SwiftUI
+import Foundation
 
 struct LoginView: View {
   @State private var email: String = ""
   @State private var password: String = ""
   @State private var navigateToProfile = false
+  @EnvironmentObject var userAuthModel: UserAuthModel
 
   var body: some View {
     NavigationStack {
@@ -24,7 +26,7 @@ struct LoginView: View {
       .navigationTitle("Login")
       .frame(width: 400, height: 200, alignment: .center)
 
-        NavigationLink(destination: DashboardView(), isActive: $navigateToProfile) {
+        NavigationLink(destination: MainTabView(), isActive: $navigateToProfile) {
         EmptyView()
       }
     }
@@ -36,7 +38,7 @@ struct LoginView: View {
       "password": password
     ]
 
-    let server = Server(parameters: parameters, url: "/users/login")
+      let server = Server(parameters: parameters, url: "/users/login", userAuthModel: userAuthModel)
 
     Task {
       let response = try await server.execute(method: "POST")

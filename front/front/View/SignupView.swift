@@ -4,6 +4,7 @@ struct SignupView: View {
   @State private var email: String = ""
   @State private var password: String = ""
   @State private var navigateToProfile = false
+  @EnvironmentObject var userAuthModel: UserAuthModel
 
   var body: some View {
     NavigationStack {
@@ -36,7 +37,7 @@ struct SignupView: View {
       "password": password
     ]
 
-    let server = Server(parameters: parameters, url: "/users/create")
+    let server = Server(parameters: parameters, url: "/users/create", userAuthModel: userAuthModel)
 
     Task {
       let response = try await server.execute(method: "POST")

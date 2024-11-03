@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct WelcomePageView: View {
+  @EnvironmentObject var userAuthModel: UserAuthModel
+
 	var body: some View {
 		NavigationView {
 			VStack(spacing: 20) {
@@ -16,7 +18,7 @@ struct WelcomePageView: View {
 
 				Spacer()
 
-				NavigationLink(destination: LoginView()) {
+				NavigationLink(destination: LoginView().environmentObject(userAuthModel)) {
 					Text("Connexion")
 							.frame(maxWidth: .infinity)
 							.padding()
@@ -26,7 +28,7 @@ struct WelcomePageView: View {
 				}
 				.padding(.horizontal, 20)
 
-				NavigationLink(destination: SignupView()) {
+				NavigationLink(destination: SignupView().environmentObject(userAuthModel)) {
 					Text("Inscription")
 							.frame(maxWidth: .infinity)
 							.padding()

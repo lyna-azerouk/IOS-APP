@@ -9,18 +9,19 @@ import SwiftUI
 import Foundation
 
 struct ContentView: View {
+  @StateObject var userAuthModel = UserAuthModel()
+
   var body: some View {
 
-    // Group {
-    //   let isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
-
-    //   if false {
-    //     UserProfileView()
-    //   }else {
-    //       CardsView()
-    //   }
-    // }
-    MainTabView()
+    Group {
+      if userAuthModel.currentUser != nil && userAuthModel.userSession != "" {
+        MainTabView()
+        .environmentObject(userAuthModel)
+      }else {
+        WelcomePageView()
+        .environmentObject(userAuthModel)
+      }
+    }
   }
 }
 

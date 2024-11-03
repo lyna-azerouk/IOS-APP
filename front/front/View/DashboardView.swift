@@ -2,12 +2,18 @@ import SwiftUI
 
 struct DashboardView: View {
   @State public var searchText: String = ""
+  @EnvironmentObject var userAuthModel: UserAuthModel
 
   var body: some View {
     NavigationView {
 
       VStack {
         // First element of the page
+
+        Text("Welcome \(userAuthModel.currentUser?.email ?? "")")
+          .font(.title)
+          .padding()
+
         HStack(spacing: 10) {
             Text("My cards")
               .font(.subheadline)
@@ -50,6 +56,19 @@ struct DashboardView: View {
         .frame(maxWidth: 500)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .gray.opacity(0.2), radius: 8, x: 0, y: 2)
+
+        Button(action: {
+          UserDefaults.standard.set(false, forKey: "isLoggedIn")
+          userAuthModel.currentUser = nil
+          userAuthModel.userSession = ""
+        }) {
+          Text("Log out")
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.red)
+            .foregroundColor(.white)
+            .cornerRadius(10)
+        }
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(Color(red: 0.9, green: 0.9, blue: 0.9))
