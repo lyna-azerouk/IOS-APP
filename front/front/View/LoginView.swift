@@ -6,29 +6,50 @@ struct LoginView: View {
   @State private var password: String = ""
   @State private var navigateToProfile = false
   @EnvironmentObject var userAuthModel: UserAuthModel
+  private var costum_blue: Color = Color(UIColor(red: 64/255, green: 76/255, blue: 178/255, alpha: 1.0))
 
   var body: some View {
     NavigationStack {
-      Form {
-        TextField("Email", text: $email)
-        TextField("Password", text: $password)
+      VStack(spacing: 20) {
+        Text("Welcome back")
+          .font(.title)
+          .fontWeight(.bold)
 
-        Button(action: submitForm) {
-          Text("Submit")
-            .frame(maxWidth: .infinity)
+        Text("Please enter your details")
+          .font(.subheadline)
+          .foregroundColor(.gray)
+
+        VStack(spacing: 16) {
+          TextField("Email", text: $email)
             .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
+            .background(Color(.systemGray6))
             .cornerRadius(10)
-        }
-        .padding(.top)
-      }
-      .navigationTitle("Login")
-      .frame(width: 400, height: 200, alignment: .center)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5)))
 
-        NavigationLink(destination: MainTabView(), isActive: $navigateToProfile) {
-        EmptyView()
+          SecureField("Password", text: $password)
+            .padding()
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5)))
+          }
+          .padding(.horizontal, 10)
+
+          // Submit Button
+          Button(action: submitForm) {
+            Text("Submit")
+              .frame(maxWidth: .infinity, maxHeight: 15)
+              .padding()
+              .background(costum_blue)
+              .foregroundColor(.white)
+              .cornerRadius(10)
+          }
+          .padding(.horizontal, 10)
+
+          NavigationLink(destination: MainTabView(), isActive: $navigateToProfile) {
+            EmptyView()
+          }
       }
+      .padding()
     }
   }
 
@@ -38,11 +59,10 @@ struct LoginView: View {
       "password": password
     ]
 
-      let server = Server(parameters: parameters, url: "/users/login", userAuthModel: userAuthModel)
+    let server = Server(parameters: parameters, url: "/users/login", userAuthModel: userAuthModel)
 
     Task {
       let response = try await server.execute(method: "POST")
-
       if response.code == 200 {
         UserDefaults.standard.set(true, forKey: "isLoggedIn")
         self.navigateToProfile = true
