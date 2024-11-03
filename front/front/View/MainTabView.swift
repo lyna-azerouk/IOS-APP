@@ -47,18 +47,8 @@ struct MainTabView: View {
   }
 }
 
-struct ProfileView: View {
-  var body: some View {
-    VStack {
-      Text("My Profile")
-        .font(.largeTitle)
-        .padding()
-    }
-  }
-}
-
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-      ContentView()
+    ContentView()
   }
 }
