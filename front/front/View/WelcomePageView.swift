@@ -20,21 +20,21 @@ struct WelcomePageView: View {
 
 				NavigationLink(destination: LoginView().environmentObject(userAuthModel)) {
 					Text("Connexion")
-							.frame(maxWidth: .infinity)
-							.padding()
-							.background(Color.blue)
-							.foregroundColor(.white)
-							.cornerRadius(10)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(.white)
+            .cornerRadius(10)
 				}
 				.padding(.horizontal, 20)
 
 				NavigationLink(destination: SignupView().environmentObject(userAuthModel)) {
 					Text("Inscription")
-							.frame(maxWidth: .infinity)
-							.padding()
-							.background(Color.green)
-							.foregroundColor(.white)
-							.cornerRadius(10)
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(Color.green)
+            .foregroundColor(.white)
+            .cornerRadius(10)
 				}
 				.padding(.horizontal, 20)
 

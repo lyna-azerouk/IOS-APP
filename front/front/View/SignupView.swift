@@ -25,8 +25,8 @@ struct SignupView: View {
       .navigationTitle("Inscription")
       .frame(width: 400, height: 200, alignment: .center)
 
-        NavigationLink(destination: DashboardView(), isActive: $navigateToProfile) {
-        EmptyView()
+      NavigationLink(destination: DashboardView(), isActive: $navigateToProfile) {
+      EmptyView()
       }
     }
   }

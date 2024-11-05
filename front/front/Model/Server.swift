@@ -28,7 +28,7 @@ class Server: ObservableObject {
       self.request.httpBody = try JSONSerialization.data(withJSONObject: self.auth_request.parameters, options: [])
     } catch {
       print("Error encoding parameters: \(error.localizedDescription)")
-        return Response(code: 500, message_code: "EncodingError")
+      return Response(code: 500, message_code: "EncodingError")
     }
 
     do {

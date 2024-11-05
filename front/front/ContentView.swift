@@ -9,19 +9,20 @@ import SwiftUI
 import Foundation
 
 struct ContentView: View {
-  @StateObject var userAuthModel = UserAuthModel()
+  // @StateObject var userAuthModel = UserAuthModel()
 
   var body: some View {
 
-    Group {
-      if userAuthModel.currentUser != nil && userAuthModel.userSession != "" {
-        MainTabView()
-        .environmentObject(userAuthModel)
-      }else {
-        WelcomePageView()
-        .environmentObject(userAuthModel)
-      }
-    }
+    // Group {
+    //   if userAuthModel.currentUser != nil && userAuthModel.userSession != "" {
+    //     MainTabView()
+    //     .environmentObject(userAuthModel)
+    //   }else {
+    //     WelcomePageView()
+    //     .environmentObject(userAuthModel)
+    //   }
+    // }
+    AddCardView()
   }
 }
 
