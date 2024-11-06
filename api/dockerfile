@@ -1,0 +1,7 @@
+FROM ruby:3.2.2
+WORKDIR /api
+COPY Gemfile* /api/
+RUN bundle install
+COPY . /api
+EXPOSE 9292
+CMD ["puma", "-C", "config/puma.rb"]
