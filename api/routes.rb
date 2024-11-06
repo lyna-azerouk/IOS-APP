@@ -1,5 +1,6 @@
 require 'sinatra'
 require_relative 'controllers/user_controller'
+require_relative 'controllers/wallet_controller'
 require_relative 'middelware/token_verfication_middelware'
 
 use TokenVerificationMiddleware
@@ -24,4 +25,10 @@ get '/users/session_token' do
   params = JSON.parse(request.body.read)
 
 	UserController.authentificated(params)
+end
+
+post '/users/:id/cards' do
+  params = JSON.parse(request.body.read)
+
+  WalletController.create(params)
 end

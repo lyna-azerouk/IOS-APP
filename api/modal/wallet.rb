@@ -1,5 +1,5 @@
 require 'active_record'
 
-class wallet < ActiveRecord::Base
+class Wallet < ActiveRecord::Base
   belongs_to :user
 end
