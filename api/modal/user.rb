@@ -24,14 +24,23 @@ class User < ActiveRecord::Base
     Password.new(self.password) == password
   end
 
+  def get_wallets
+    formatd_wallets = []
+
+    self.wallets.each do |wallet|
+      formatd_wallets << wallet.get_wallet
+    end
+    formatd_wallets
+  end
+
   def self.token_expired?(session_token)
     begin
       decoded_token = User.decode(session_token)
       expiration_time = decoded_token[0]['exp']
 
-      return expiration_time && Time.at(expiration_time) < Time.now
+      expiration_time && Time.at(expiration_time) < Time.now
     rescue JWT::DecodeError => e
-      return false
+      false
     end
   end
 
@@ -40,7 +49,7 @@ class User < ActiveRecord::Base
     user_id = decoded_token[0]['user_id']
 
     user = User.find_by(id: user_id)
-    return user
+    user
   end
 
   private

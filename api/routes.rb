@@ -9,6 +9,7 @@ get '/' do
   'Hello world!'
 end
 
+#User EndPoints
 post '/users/create' do
   params = JSON.parse(request.body.read)
 
@@ -27,7 +28,14 @@ get '/users/session_token' do
 	UserController.authentificated(params)
 end
 
+#Card EndPoints
 post '/users/:user_id/cards' do
   result = params.merge(JSON.parse(request.body.read))
   WalletController.create(result)
 end
+
+get '/users/:user_id/cards' do
+  result = params.merge(JSON.parse(request.body.read))
+  WalletController.index(result)
+end
+

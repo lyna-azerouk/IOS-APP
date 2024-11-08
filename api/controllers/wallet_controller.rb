@@ -24,6 +24,18 @@ class WalletController
     end
   end
 
+
+  def self.index(params)
+    WalletController.find_user(params)
+
+    if @user.present?
+      user_wallets = @user.get_wallets
+      ApiResponseHelper.render_success(200, user_wallets)
+    else
+      ApiResponseHelper.render_failure(404, "user_not_found")
+    end
+  end
+
   def self.find_user(params)
     @user = User.find_by(id: params['user_id'])
     @user
