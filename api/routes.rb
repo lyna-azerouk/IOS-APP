@@ -27,8 +27,7 @@ get '/users/session_token' do
 	UserController.authentificated(params)
 end
 
-post '/users/:id/cards' do
-  params = JSON.parse(request.body.read)
-
-  WalletController.create(params)
+post '/users/:user_id/cards' do
+  result = params.merge(JSON.parse(request.body.read))
+  WalletController.create(result)
 end

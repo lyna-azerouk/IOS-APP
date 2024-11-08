@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
 
   has_many :wallets
 
+  validates :email, :password, presence: true
+  validates :email, uniqueness: true
+
   def generate_session_token
     payload = { data: 'user_session_token', exp: Time.now.to_i + 10 * 3600, user_id: self.id }
     self.session_token = JWT.encode(payload, nil, 'HS256')

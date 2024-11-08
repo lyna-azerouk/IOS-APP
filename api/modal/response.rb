@@ -1,3 +1,5 @@
+require 'json'
+
 class Response
   attr_reader :code, :message, :data, :errors, :success, :resource
 
@@ -16,13 +18,20 @@ class Response
 
   def as_json(*)
     if success
-      resource.as_json.to_s
+      JSON.generate(
+        {
+          code: code,
+          resource: resource.as_json
+        }
+      )
     else
-      {
-        "code": code,
-        "message": message,
-        "errors": errors
-    }.to_s
+      JSON.generate(
+        {
+          code: code,
+          message: message,
+          errors: errors.as_json
+        }
+      )
     end
   end
 end

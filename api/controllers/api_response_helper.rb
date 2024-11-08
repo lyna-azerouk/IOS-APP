@@ -6,9 +6,9 @@ module ApiResponseHelper
     return code, response.as_json
   end
 
-  def self.render_failure(code, message)
+  def self.render_failure(code, message, errors=nil)
     response = Response.new()
-    response.init_failure({ code: code, message: message })
+    response.init_failure({ code: code, message: message, errors: errors})
     return code, response.as_json
   end
 end

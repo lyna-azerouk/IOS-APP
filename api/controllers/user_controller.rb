@@ -16,7 +16,7 @@ class UserController
     if transaction.success?
       ApiResponseHelper.render_success(200, transaction.success[:user])
     else
-      ApiResponseHelper.render_failure(422, transaction.failure)
+      ApiResponseHelper.render_failure(422, transaction.failure.errors)
     end
   end
 
@@ -38,9 +38,9 @@ class UserController
     @user = User.find_user_by_token(params['session_token'])
 
     if !token_expired && @user.present?
-      ApiResponseHelper.render_success(200,@user)
+      ApiResponseHelper.render_success(200, @user)
     else
-      ApiResponseHelper.render_failure(422, "user not found")
+      ApiResponseHelper.render_failure(404, "user_not_found")
     end
   end
 
@@ -48,7 +48,7 @@ class UserController
     find_user(params)
 
     if @user.present?
-      ApiResponseHelper.render_failure(401, "already exist")
+      ApiResponseHelper.render_failure(401, "user_already_exist")
     end
   end
 

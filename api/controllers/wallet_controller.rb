@@ -8,12 +8,24 @@ require 'uri'
 class WalletController
 
   def self.create(params)
-    transaction = Api::Wallet::SaveTransaction.call(params: params)
+    WalletController.find_user(params)
 
-    if transaction.success?
-      return 200
+    if @user.present?
+      transaction = Api::Wallet::SaveTransaction.call(params: params)
+
+      if transaction.success?
+        wallet = transaction.success[:wallet]
+        ApiResponseHelper.render_success(200, wallet.get_wallet)
+      else
+        ApiResponseHelper.render_failure(422, "unprocessable_entity", transaction.failure[:errors])
+      end
     else
-      retrun 422
+      ApiResponseHelper.render_failure(404, "user_not_found")
     end
+  end
+
+  def self.find_user(params)
+    @user = User.find_by(id: params['user_id'])
+    @user
   end
 end
