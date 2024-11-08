@@ -24,7 +24,6 @@ class WalletController
     end
   end
 
-
   def self.index(params)
     WalletController.find_user(params)
 

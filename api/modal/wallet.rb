@@ -12,7 +12,7 @@ class Wallet < ActiveRecord::Base
   enumerize :name, in: [:visa, :mastercard, :american_express]
 
   validates :csv, :name, :number, :exprired_at, presence: true
-  # validates :number, uniqueness: true
+  validates :number, uniqueness: true
   validate :number_lenght?
   validate :luhn_valid?
 
