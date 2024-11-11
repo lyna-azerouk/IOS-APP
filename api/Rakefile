@@ -4,8 +4,31 @@ require 'yaml'
 db_config = YAML.load_file('config/database.yml')
 conn = PG.connect( db_config['devlopement'] )
 
-# conn.exec("DROP TABLE if exists users cascade;")
+conn.exec("DROP TABLE if exists users cascade;")
 conn.exec("DROP TABLE if exists wallets cascade;")
+conn.exec("DROP TABLE if exists addresses cascade;")
+
+conn.exec("CREATE TABLE IF NOT EXISTS addresses (
+  id SERIAL PRIMARY KEY,
+  country VARCHAR(50),
+  city VARCHAR(50),
+  region VARCHAR(50),
+  street VARCHAR(50),
+  postal_code VARCHAR(50)
+)")
+
+conn.exec("CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  date_of_birth Date,
+  email VARCHAR(100),
+  password VARCHAR(100),
+  session_token VARCHAR(256),
+  dwolla_id VARCHAR(256),
+  address_id INT,
+  CONSTRAINT fk_address FOREIGN KEY(address_id) REFERENCES addresses(id)
+)")
 
 conn.exec("CREATE TABLE IF NOT EXISTS wallets (
   name VARCHAR(50),
@@ -14,12 +37,4 @@ conn.exec("CREATE TABLE IF NOT EXISTS wallets (
   exprired_at Date,
   user_id INT,
   CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id)
-)")
-
-conn.exec("CREATE TABLE IF NOT EXISTS users (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(50),
-  email VARCHAR(100),
-  password VARCHAR(100),
-  session_token VARCHAR(256)
 )")

@@ -6,8 +6,9 @@ class User < ActiveRecord::Base
   include BCrypt
 
   has_many :wallets
+  belongs_to :address
 
-  validates :email, :password, presence: true
+  validates :email, :password, :first_name, :last_name, :date_of_birth, presence: true
   validates :email, uniqueness: true
 
   def generate_session_token
@@ -31,6 +32,26 @@ class User < ActiveRecord::Base
       formatd_wallets << wallet.get_wallet
     end
     formatd_wallets
+  end
+
+  def create_verfied_user_dowlla_api
+    @dwolla =  Dwolla.new()
+    @dwolla.init()
+
+    request_body = {
+      :firstName => first_name,
+      :lastName => last_name,
+      :email => email,
+      :type => 'personal',
+      :address1 => "adress1",
+      :city => address.city,
+      :state => address.region,
+      :postalCode => address.postal_code,
+      :dateOfBirth => date_of_birth,
+      :ssn => '1234'
+    }
+
+    @dwolla.create_verifed_user(request_body)
   end
 
   def self.token_expired?(session_token)

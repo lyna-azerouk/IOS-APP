@@ -1,6 +1,8 @@
 require 'active_record'
 require 'dry/transaction'
 require 'email_address'
+require_relative '../../../modal/address'
+require_relative '../../../modal/dwolla'
 require_relative '../../../modal/user'
 require_relative '../../base_transaction'
 
@@ -10,11 +12,13 @@ module Api
 
       tee :params
       step :valid_email
+      step :init_address
       tee :init_user
       tee :hash_password
       tee :session_token
       step :valid?
       step :save
+      step :create_dwolla_user
 
       def params(input)
         @params = input.fetch(:params)
@@ -30,6 +34,16 @@ module Api
           Success(input)
         else
           Failure("Invalid email format")
+        end
+      end
+
+      def init_address(input)
+        address = ::Address.new(@params['address'])
+        if address.save
+          @params['address'] = address
+          Success(input)
+        else
+          Failure(errors: address.errors)
         end
       end
 
@@ -49,15 +63,23 @@ module Api
        if @user.valid?
         Success(input)
        else
-        Failure( "Invalid")
+        Failure(errors: @user.errors )
        end
       end
 
       def save(input)
         if @user.save
+          Success(input)
+        else
+          Failure(errors: @user.errors)
+        end
+      end
+
+      def create_dwolla_user(input)
+        if @user.create_verfied_user_dowlla_api
           Success(input.merge(user: @user))
         else
-          Failure("Erreur lors du téléchargment")
+          Failure(errors: "error while creating user in dwolla")
         end
       end
     end

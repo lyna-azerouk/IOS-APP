@@ -16,7 +16,7 @@ class UserController
     if transaction.success?
       ApiResponseHelper.render_success(200, transaction.success[:user])
     else
-      ApiResponseHelper.render_failure(422, transaction.failure.errors)
+      ApiResponseHelper.render_failure(422, transaction.failure)
     end
   end
 
