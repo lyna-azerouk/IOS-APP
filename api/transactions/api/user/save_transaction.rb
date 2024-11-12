@@ -33,7 +33,7 @@ module Api
         if is_email_valid
           Success(input)
         else
-          Failure("Invalid email format")
+          Failure(input.merge(errors: {"email": "invalid email"}))
         end
       end
 
@@ -43,7 +43,7 @@ module Api
           @params['address'] = address
           Success(input)
         else
-          Failure(errors: address.errors)
+          Failure(input.merge(errors: address.errors))
         end
       end
 
@@ -63,7 +63,7 @@ module Api
        if @user.valid?
         Success(input)
        else
-        Failure(errors: @user.errors )
+        Failure(input.merge(errors: @user.errors) )
        end
       end
 
@@ -77,9 +77,9 @@ module Api
 
       def create_dwolla_user(input)
         if @user.create_verfied_user_dowlla_api
-          Success(input.merge(user: @user))
+          Success(input.merge(errors: @user))
         else
-          Failure(errors: "error while creating user in dwolla")
+          Failure(input.merge(errors: "error while creating user in dwolla"))
         end
       end
     end
