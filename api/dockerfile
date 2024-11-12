@@ -1,8 +1,19 @@
 FROM ruby:3.2.2
 WORKDIR /api
 COPY Gemfile* /api/
+
+ENV DATABASE_HOST=my_postgres
+ENV DATABASE_PORT=5432
+ENV DATABASE_NAME=ecommerce_development
+ENV DATABASE_USER=ecomerce_user
+ENV DATABASE_PASSWORD=postgres
+
+
 RUN apt-get update && apt-get install -y postgresql-client
 RUN bundle install
 COPY . /api
+COPY wait-for-db.sh /api/wait-for-db.sh
+RUN chmod +x /api/wait-for-db.sh
+
 EXPOSE 9292
-CMD ["puma", "-C", "config/puma.rb"]
+CMD ["./wait-for-db.sh", "my_postgres", "puma", "-C", "config/puma.rb"]
