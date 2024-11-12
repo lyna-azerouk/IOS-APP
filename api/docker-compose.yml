@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     environment:
-      POSTGRES_USER: ecommerce_user
+      POSTGRES_USER: ecomerce_user
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: ecommerce_development
     ports:
@@ -15,7 +15,7 @@ services:
   app:
     build: .
     environment:
-      DATABASE_URL: postgres://ecommerce_user:postgres@db:5432/ecommerce_development
+      DATABASE_URL: postgres://ecomerce_user:postgres@db:5432/ecommerce_development
     ports:
       - "9292:9292"
     depends_on:
