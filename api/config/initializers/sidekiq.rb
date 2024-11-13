@@ -1,7 +1,6 @@
 require 'sidekiq'
 require 'sidekiq-cron'
 require 'yaml'
-require 'active_record'
 require_relative '../../jobs/set_costumer_id_job'
 require_relative '../database'
 

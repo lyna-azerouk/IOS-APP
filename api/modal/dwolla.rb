@@ -5,8 +5,8 @@ class Dwolla
 
   def init()
     @@dwolla = DwollaV2::Client.new(
-    key: "IEo2kvbFJ1mwwHUYqFZ30shh7iZxJ5ATaZiDyEmNgqPtltuQ7T",
-    secret: "poOHFUDj1ofcFPsvkGVJeS6uY3AbL4oYkOO7nwXrf2vBsc9Fve",
+    key: ENV['DWOLLA_CLIENT'],
+    secret: ENV['DWOLLA_SECRET_KEY'],
     environment: :sandbox
     )
   end
