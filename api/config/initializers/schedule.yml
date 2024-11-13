@@ -1,0 +1,4 @@
+# schedule.yml
+set_costumer_id_job:
+    cron: "*/15 * * * *"
+    class: "SetCostumerIdJob"

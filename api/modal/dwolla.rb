@@ -14,4 +14,12 @@ class Dwolla
   def create_verifed_user(request_body)
     new_customer = @@dwolla.post "customers", request_body
   end
+
+  def get_costomers
+    @@dwolla.get "customers"
+  end
+
+  def get_costumer(request_body)
+    @@dwolla.get "customers", request_body
+  end
 end

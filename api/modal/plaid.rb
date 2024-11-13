@@ -27,7 +27,7 @@ request = Plaid::UserCreateRequest.new(
         region: "IL",
         street: "3200 W Armitage Ave",
         postal_code: "60657",
-        country: "US"      
+        country: "US"
       }
     }
   }

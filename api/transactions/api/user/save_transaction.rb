@@ -77,7 +77,7 @@ module Api
 
       def create_dwolla_user(input)
         if @user.create_verfied_user_dowlla_api
-          Success(input.merge(errors: @user))
+          Success(input.merge(user: @user))
         else
           Failure(input.merge(errors: "error while creating user in dwolla"))
         end
