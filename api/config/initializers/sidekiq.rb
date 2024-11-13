@@ -1,3 +1,5 @@
+require 'dotenv'
+Dotenv.load
 require 'sidekiq'
 require 'sidekiq-cron'
 require 'yaml'

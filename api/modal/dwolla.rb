@@ -16,7 +16,8 @@ class Dwolla
   end
 
   def get_costomers
-    @@dwolla.get "customers"
+    response_body = @@dwolla.get "customers"
+    response_body["_embedded"]["customers"]
   end
 
   def get_costumer(request_body)

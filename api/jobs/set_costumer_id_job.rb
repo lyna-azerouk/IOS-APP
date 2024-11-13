@@ -12,7 +12,7 @@ class SetCostumerIdJob
     dwolla.init()
     costumers = dwolla.get_costomers()
 
-    costumers["_embedded"]["customers"].each do |customer|
+    costumers.each do |customer|
       user = ::User.find_by(email: customer["email"] )
       user.update(dwolla_id: customer["id"] ) if user.present?
     end
