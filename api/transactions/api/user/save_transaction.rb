@@ -25,6 +25,7 @@ module Api
 
         @email = @params['email']
         @password = @params['password']
+        @params.merge!("state" => "verified")
       end
 
       def valid_email(input)

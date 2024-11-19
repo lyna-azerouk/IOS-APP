@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :wallets
   belongs_to :address
 
-  validates :email, :password, :first_name, :last_name, :date_of_birth, presence: true
+  validates :email, :password, :first_name, :last_name, :date_of_birth, :state, presence: true
   validates :email, uniqueness: true
 
   def generate_session_token
