@@ -4,9 +4,48 @@ require 'yaml'
 db_config = YAML.load_file('config/database.yml')
 conn = PG.connect( db_config['devlopement'] )
 
-conn.exec("DROP TABLE if exists users cascade;")
-conn.exec("DROP TABLE if exists wallets cascade;")
-conn.exec("DROP TABLE if exists addresses cascade;")
+# conn.exec("DROP TABLE if exists users cascade;")
+# conn.exec("DROP TABLE if exists wallets cascade;")
+# conn.exec("DROP TABLE if exists addresses cascade;")
+# conn.exec("DROP TABLE if exists business_users cascade;")
+
+
+conn.exec("ALTER TABLE documents
+  ADD user_id INT;
+  ALTER TABLE documents
+  ADD CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id);")
+
+conn.exec("ALTER TABLE controllers
+  ADD ssn VARCHAR(200);")
+
+conn.exec("ALTER TABLE users
+  ADD ein VARCHAR(200);")
+
+conn.exec("ALTER TABLE users
+  ADD controller_id INT;
+  ALTER TABLE users
+  ADD CONSTRAINT fk_controller FOREIGN KEY(controller_id) REFERENCES controller(id);")
+
+conn.exec("ALTER TABLE users
+  ADD business_classification VARCHAR(200);")
+
+conn.exec("ALTER TABLE users
+  ADD business_name VARCHAR(200);")
+conn.exec("ALTER TABLE users
+  ADD business_type VARCHAR(200);")
+
+conn.exec("ALTER TABLE users
+  ADD user_type VARCHAR(200);")
+
+conn.exec("CREATE TABLE IF NOT EXISTS controller (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(256),
+  last_name VARCHAR(256),
+  title VARCHAR(256),
+  date_of_birth Date,
+  address_id INT,
+  CONSTRAINT fk_address FOREIGN KEY(address_id) REFERENCES addresses(id)
+)")
 
 conn.exec("CREATE TABLE IF NOT EXISTS addresses (
   id SERIAL PRIMARY KEY,

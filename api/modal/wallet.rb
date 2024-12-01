@@ -9,12 +9,13 @@ class Wallet < ActiveRecord::Base
   KEY = "\x18\xDF\xFE\xFE\xEDw=\xF0\xC3\xE8\xA9|\x8E\xA1k\xB8\x7F^\xBCZ&6\xF3\xA4\xF8r\x0F$\xD5\xDC\xD89"
 
   belongs_to :user, optional: false
-  enumerize :name, in: [:visa, :mastercard, :american_express]
 
   validates :csv, :name, :number, :exprired_at, presence: true
   validates :number, uniqueness: true
   validate :number_lenght?
   validate :luhn_valid?
+
+  enumerize :name, in: [:visa, :mastercard, :american_express]
 
   def get_wallet
     {

@@ -1,14 +1,13 @@
 require_relative '../modal/response'
 require_relative 'api_response_helper'
+require_relative 'application_controller'
 require_relative '../transactions/api/wallet/save_transaction'
-require 'json'
-require 'net/https'
-require 'uri'
 
-class WalletController
+
+class WalletController < ApplicationController
 
   def self.create(params)
-    WalletController.find_user(params)
+    @user = new().find_user(params)
 
     if @user.present?
       transaction = Api::Wallet::SaveTransaction.call(params: params)
@@ -33,10 +32,5 @@ class WalletController
     else
       ApiResponseHelper.render_failure(404, "user_not_found")
     end
-  end
-
-  def self.find_user(params)
-    @user = User.find_by(id: params['user_id'])
-    @user
   end
 end

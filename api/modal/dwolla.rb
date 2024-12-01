@@ -11,6 +11,7 @@ class Dwolla
     )
   end
 
+  #costomers
   def create_verifed_user(request_body)
     new_customer = @@dwolla.post "customers", request_body
   end
@@ -22,5 +23,10 @@ class Dwolla
 
   def get_costumer(request_body)
     @@dwolla.get "customers", request_body
+  end
+
+  #documents
+  def create_document(request_body, customer_id)
+   @@dwolla.post "customers/#{customer_id}/documents", request_body
   end
 end

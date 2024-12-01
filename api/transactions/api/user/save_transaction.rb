@@ -2,8 +2,10 @@ require 'active_record'
 require 'dry/transaction'
 require 'email_address'
 require_relative '../../../modal/address'
+require_relative '../../../modal/controller'
 require_relative '../../../modal/dwolla'
 require_relative '../../../modal/user'
+require_relative '../../../modal/business_user'
 require_relative '../../base_transaction'
 
 module Api
@@ -13,7 +15,8 @@ module Api
       tee :params
       step :valid_email
       step :init_address
-      tee :init_user
+      step :maybe_init_controller
+      step :init_user
       tee :hash_password
       tee :session_token
       step :valid?
@@ -25,7 +28,7 @@ module Api
 
         @email = @params['email']
         @password = @params['password']
-        @params.merge!("state" => "verified")
+        @params = build_params
       end
 
       def valid_email(input)
@@ -39,17 +42,47 @@ module Api
       end
 
       def init_address(input)
-        address = ::Address.new(@params['address'])
+        address = ::Address.new(@params['user']['address'])
+
         if address.save
-          @params['address'] = address
+          @params['user']['address'] = address
           Success(input)
         else
           Failure(input.merge(errors: address.errors))
         end
       end
 
-      def init_user(_input)
-        @user = ::User.new(@params)
+      def maybe_init_controller(input)
+        return Success(input) if @params['user']['business_type'] == "soleProprietorship"
+
+        if !@params['user']['controller'].nil?
+          @params['user']['controller']['address'] = ::Address.new(@params['user']['controller']['address'])
+          controller = ::Controller.new(@params['user']['controller'])
+
+          if controller.save
+            @params['user']['controller'] = controller
+            Success(input)
+          else
+            Failure(input.merge(errors: controller.errors))
+          end
+        else
+          Failure(input.merge(errors: {"controller": "conroller is blank"}))
+        end
+      end
+
+      def init_user(input)
+        case @params['user']['user_type']
+        when "personal"
+          @user = ::User.new(@params['user'])
+        when "business"
+          @user = ::BusinessUser.new(@params['user'])
+        else
+          return Failure(input.merge(errors:{"type": "Incorrect type"}))
+        end
+
+        Success(input)
+      rescue => e
+        return Failure(input.merge(errors:{"type": "Incorrect type"}))
       end
 
       def hash_password(_input)
@@ -69,7 +102,7 @@ module Api
       end
 
       def save(input)
-        if @user.save
+        if @user.save && (@bs_user.nil? || @bs_user.save)
           Success(input)
         else
           Failure(errors: @user.errors)
@@ -81,6 +114,39 @@ module Api
           Success(input.merge(user: @user))
         else
           Failure(input.merge(errors: "error while creating user in dwolla"))
+        end
+      end
+
+      private
+
+      def build_params
+       @params.merge!("state" => "verified")
+       users_keys = @params.keys - buisness_keys()
+
+       case @params['user_type']
+       when "personal"
+          {"user" => @params.slice(*users_keys)}
+       when "business"
+          {"user" => buisness_params()}
+       end
+      end
+
+      def buisness_keys
+        case @params['business_type']
+        when "soleProprietorship"
+          %w[business_type business_name ein business_classification user]
+        else
+          %w[business_type business_name ein business_classification user controller]
+        end
+      end
+
+      def buisness_params
+        case @params['business_type']
+        when "soleProprietorship"
+          params_keys = @params.keys
+          @params.slice(*(params_keys - ["controller"]))
+        else
+          @params
         end
       end
     end

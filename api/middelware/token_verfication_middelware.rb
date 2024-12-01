@@ -8,7 +8,7 @@ class TokenVerificationMiddleware
   def call(env)
     bearer_token = env['HTTP_AUTHORIZATION']
 
-    if bearer_token.empty?
+    if bearer_token.nil? || bearer_token.empty?
       return [401, { 'Content-Type' => 'application/json' }, ['Unauthorized']]
     end
 

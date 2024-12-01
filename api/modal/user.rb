@@ -1,15 +1,20 @@
 require 'active_record'
+require 'enumerize'
 require 'jwt'
 require 'bcrypt'
 
 class User < ActiveRecord::Base
   include BCrypt
+  extend Enumerize
 
   has_many :wallets
+  has_many :documents
   belongs_to :address
 
-  validates :email, :password, :first_name, :last_name, :date_of_birth, :state, presence: true
+  validates :email, :password, :first_name, :last_name, :date_of_birth, :state, :user_type, presence: true
   validates :email, uniqueness: true
+
+  enumerize :user_type, in: [:business, :personal]
 
   def generate_session_token
     payload = { data: 'user_session_token', exp: Time.now.to_i + 10 * 3600, user_id: self.id }
@@ -34,15 +39,17 @@ class User < ActiveRecord::Base
     formatd_wallets
   end
 
-  def create_verfied_user_dowlla_api
+  def init_dwolla
     @dwolla =  Dwolla.new()
     @dwolla.init()
+  end
 
-    request_body = {
+  def build_dwolla_body
+    {
       :firstName => first_name,
       :lastName => last_name,
       :email => email,
-      :type => 'personal',
+      :type => user_type,
       :address1 => "adress1",
       :city => address.city,
       :state => address.region,
@@ -50,7 +57,12 @@ class User < ActiveRecord::Base
       :dateOfBirth => date_of_birth,
       :ssn => '1234'
     }
+  end
 
+  def create_verfied_user_dowlla_api
+    init_dwolla
+
+    request_body = build_body
     @dwolla.create_verifed_user(request_body)
   end
 
