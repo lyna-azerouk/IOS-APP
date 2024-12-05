@@ -29,10 +29,11 @@ module Api
 
       def init_document(input)
         @document = ::Document.new(
+          name: @params['file']['filename'],
           file_type: @params['file_type'],
-          name: @params['document']['filename'],
+          document_data: @params['file'],
           user: @params['user'],
-          document: Base64.encode64(@params['document']['tempfile'].read)
+          file: @params['file']
         )
       end
 
@@ -55,8 +56,6 @@ module Api
       def send_to_dwolla(_input)
         if @document.present?
           @document.send_to_dwolla()
-        else
-          puts "docmuent not presnet in bdd"
         end
       end
     end

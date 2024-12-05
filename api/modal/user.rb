@@ -2,14 +2,15 @@ require 'active_record'
 require 'enumerize'
 require 'jwt'
 require 'bcrypt'
+require_relative 'services/dwolla/dwolla'
 
 class User < ActiveRecord::Base
   include BCrypt
   extend Enumerize
 
+  belongs_to :address
   has_many :wallets
   has_many :documents
-  belongs_to :address
 
   validates :email, :password, :first_name, :last_name, :date_of_birth, :state, :user_type, presence: true
   validates :email, uniqueness: true
