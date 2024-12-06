@@ -1,10 +1,10 @@
 require "active_record"
 require 'tempfile'
-require_relative 'image_uploader'
+require_relative '../uploaders/image_uploader'
 require_relative 'services/dwolla/dwolla'
 
 class Document < ActiveRecord::Base
-  include ImageUploader::Attachment(:file)
+  include ImageUploader::Attachment.new(:file)
 
   attr_accessor :file
   belongs_to :user
@@ -15,7 +15,7 @@ class Document < ActiveRecord::Base
     @dwolla = Services::Dwolla::Dwolla.new
     @dwolla.init
 
-    file_build = Faraday::UploadIO.new(file['tempfile'].path, 'image/png')
+    file_build = Faraday::UploadIO.new(file.path, 'image/png')
 
     request_body = {
       documentType: file_type,

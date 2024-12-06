@@ -41,11 +41,10 @@ get '/users/:user_id/cards' do
 end
 
 ## Document Endpoint
-post '/users/:user_id/document' do
+post '/users/:user_id/documents' do
   DocumentController.create(params)
 end
 
-get '/users/:user_id/document' do
-  result = params.mergee(JSON.params(request.body.read))
-  DocumentController.create(result)
+get '/users/:user_id/documents' do
+  DocumentController.index(params)
 end

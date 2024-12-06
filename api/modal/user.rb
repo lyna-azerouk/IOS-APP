@@ -2,6 +2,7 @@ require 'active_record'
 require 'enumerize'
 require 'jwt'
 require 'bcrypt'
+require 'json'
 require_relative 'services/dwolla/dwolla'
 
 class User < ActiveRecord::Base
@@ -61,10 +62,19 @@ class User < ActiveRecord::Base
   end
 
   def create_verfied_user_dowlla_api
-    init_dwolla
+    init_dwolla()
 
     request_body = build_body
     @dwolla.create_verifed_user(request_body)
+  end
+
+  def get_documents()
+    documents_file = []
+
+    self.documents.each do |document|
+      documents_file << ( document.file_data )
+    end
+    documents_file
   end
 
   def self.token_expired?(session_token)

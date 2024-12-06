@@ -39,6 +39,11 @@ module Services
           @logger.log(e.message, e.class)
         end
       end
+
+      def get_documents(customer_id)
+        response_body = @@dwolla.get "customers/#{customer_id}/documents"
+        response_body['_embedded']['documents']
+      end
     end
   end
 end

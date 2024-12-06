@@ -31,9 +31,9 @@ module Api
         @document = ::Document.new(
           name: @params['file']['filename'],
           file_type: @params['file_type'],
-          document_data: @params['file'],
           user: @params['user'],
-          file: @params['file']
+          file_data: @params['file'],
+          file: @params['file']['tempfile']
         )
       end
 
