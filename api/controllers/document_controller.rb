@@ -25,10 +25,8 @@ class DocumentController < ApplicationController
 
     if @user.present?
       params = params.merge(user: @user)
-
       documents = @user.get_documents()
 
-      puts documents.inspect
       ApiResponseHelper.render_success(200, documents)
     else
       ApiResponseHelper.render_failure(404, 'user_not_found')

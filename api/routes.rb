@@ -2,6 +2,7 @@ require 'sinatra'
 require_relative 'controllers/user_controller'
 require_relative 'controllers/wallet_controller'
 require_relative 'controllers/document_controller'
+require_relative 'controllers/webhooks/webhooks'
 require_relative 'middelware/token_verfication_middelware'
 
 use TokenVerificationMiddleware
@@ -47,4 +48,9 @@ end
 
 get '/users/:user_id/documents' do
   DocumentController.index(params)
+end
+
+## Hooks
+post '/webhooks' do
+  Webhooks::WebhooksController.receive(params)
 end
