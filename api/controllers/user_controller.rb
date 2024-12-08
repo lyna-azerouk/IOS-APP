@@ -1,5 +1,3 @@
-require_relative '../transactions/api/user/save_transaction'
-require_relative '../modal/response'
 require_relative 'api_response_helper'
 require_relative 'application_controller'
 
@@ -19,7 +17,7 @@ class UserController < ApplicationController
   end
 
   def self.login(params)
-    user = find_user_by_email(params)
+    user = find_user(params)
 
     return 404 unless user.present?
 
@@ -43,7 +41,7 @@ class UserController < ApplicationController
   end
 
   def self.find_resource(params)
-    find_user_by_email(params)
+    find_user(params)
 
     if @user.present?
       ApiResponseHelper.render_failure(401, "user_already_exist")

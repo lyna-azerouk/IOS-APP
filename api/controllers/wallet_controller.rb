@@ -1,8 +1,5 @@
-require_relative '../modal/response'
 require_relative 'api_response_helper'
 require_relative 'application_controller'
-require_relative '../transactions/api/wallet/save_transaction'
-
 
 class WalletController < ApplicationController
 
@@ -24,7 +21,7 @@ class WalletController < ApplicationController
   end
 
   def self.index(params)
-    WalletController.find_user(params)
+    new().find_user(params)
 
     if @user.present?
       user_wallets = @user.get_wallets

@@ -1,4 +1,3 @@
-require_relative 'user'
 require 'active_record'
 
 class BusinessUser < User

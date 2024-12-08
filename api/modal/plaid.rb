@@ -32,7 +32,3 @@ request = Plaid::UserCreateRequest.new(
     }
   }
 )
-
-response = client.user_create(request)
-
-puts response.inspect

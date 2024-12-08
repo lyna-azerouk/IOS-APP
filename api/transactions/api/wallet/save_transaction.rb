@@ -1,8 +1,4 @@
-require 'active_record'
-require 'dry/transaction'
 require 'email_address'
-require_relative '../../../modal/wallet'
-require_relative '../../base_transaction'
 
 module Api
   module Wallet

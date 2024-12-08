@@ -1,5 +1,4 @@
 require_relative '../../base_transaction'
-require_relative '../../../modal/document'
 
 module Api
   module Document

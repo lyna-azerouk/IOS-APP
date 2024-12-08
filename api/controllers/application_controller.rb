@@ -2,6 +2,8 @@ require 'json'
 require 'net/https'
 require 'uri'
 require 'action_controller'
+require 'sinatra'
+require 'openssl'
 
 class ApplicationController < ActionController::Base
 

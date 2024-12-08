@@ -1,11 +1,4 @@
-require 'active_record'
-require 'dry/transaction'
 require 'email_address'
-require_relative '../../../modal/address'
-require_relative '../../../modal/controller'
-require_relative '../../../modal/user'
-require_relative '../../../modal/business_user'
-require_relative '../../base_transaction'
 
 module Api
   module User

@@ -1,8 +1,4 @@
-require 'sinatra'
-require 'openssl'
-require 'json'
 require_relative '../application_controller'
-require_relative '../../modal/services/dwolla/webhook'
 
 module Webhooks
   class WebhookController < ApplicationController

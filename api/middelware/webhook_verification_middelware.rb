@@ -14,8 +14,6 @@ class WebhookVerificationMiddleware
     if !valid_signature?( request_body, request_signature)
       return [401, { 'Content-Type' => 'application/json' }, ['Unauthorized']]
     end
-
-    @app.call(env)
   end
 
   private

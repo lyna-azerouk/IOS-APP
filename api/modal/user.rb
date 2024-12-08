@@ -3,7 +3,6 @@ require 'enumerize'
 require 'jwt'
 require 'bcrypt'
 require 'json'
-require_relative 'services/dwolla/dwolla'
 
 class User < ActiveRecord::Base
   include BCrypt
@@ -42,7 +41,7 @@ class User < ActiveRecord::Base
   end
 
   def init_dwolla
-    @dwolla =  Dwolla.new()
+    @dwolla = ::Services::Dwolla::Dwolla.new()
     @dwolla.init()
   end
 

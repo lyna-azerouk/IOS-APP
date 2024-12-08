@@ -17,8 +17,6 @@ class TokenVerificationMiddleware
     rescue JWT::DecodeError => e
       return [401, { 'Content-Type' => 'application/json' }, ['Invalid Token']]
     end
-
-    @app.call(env)
   end
 
 

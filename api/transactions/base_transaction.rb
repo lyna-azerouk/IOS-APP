@@ -1,5 +1,7 @@
+require 'dry/transaction'
+
 class BaseTransaction
-  include Dry::Transaction
+  include ::Dry::Transaction
 
   def self.call(*args, &block)
     transaction_result = nil
